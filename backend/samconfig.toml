@@ -2,8 +2,7 @@ version = 0.1
 
 [default.deploy.parameters]
 stack_name = "roll-with-it"
-resolve_s3 = false                  # does not create new bucket
-s3_bucket = "roll-with-it-pessie"
+resolve_s3 = true
 region = "us-east-1"
 confirm_changeset = true            # asks for permission once shows you what's going to change
 capabilities = "CAPABILITY_IAM"     # has ability to manipulate permissions (policies)
