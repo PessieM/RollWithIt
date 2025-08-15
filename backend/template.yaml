@@ -16,6 +16,7 @@ Resources:
         AllowMethods:
           - GET
           - POST
+          - PUT
           - OPTIONS
 
   # Lambda functions
