@@ -1,25 +1,21 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: SAM Template for React frontend + API + DynamoDB + 6 Lambdas
-
 Resources:
-  # API Gateway Rest API with CORS enabled for frontend
-  RollWithIt: 
+  RollWithIt:
     Type: AWS::Serverless::HttpApi
     Properties:
       Name: RollWithIt
       CorsConfiguration:
         AllowOrigins:
-          - "https://main.d29lxf83hjb6ut.amplifyapp.com"
+        - https://main.d29lxf83hjb6ut.amplifyapp.com
         AllowHeaders:
-          - "*"
+        - '*'
         AllowMethods:
-          - GET
-          - POST
-          - PUT
-          - OPTIONS
-
-  # Lambda functions
+        - GET
+        - POST
+        - PUT
+        - OPTIONS
   createPackingList:
     Type: AWS::Serverless::Function
     Properties:
@@ -27,144 +23,161 @@ Resources:
       Handler: index.handler
       Runtime: nodejs22.x
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
-      CodeUri: ./src/createPackingList
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
+      CodeUri: createPackingList
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /createPackingList
             Method: post
-
+    Metadata:
+      SamResourceId: createPackingList
   addToPackingList:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: addToPackingList
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/addToPackingList
+      CodeUri: addToPackingList
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /addToPackingList
             Method: post
-
+    Metadata:
+      SamResourceId: addToPackingList
   getAllPackingLists:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: getAllPackingLists
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/getAllPackingLists
+      CodeUri: getAllPackingLists
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /getAllPackingLists
             Method: get
-
+    Metadata:
+      SamResourceId: getAllPackingLists
   getPackingList:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: getPackingList
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/getPackingList
+      CodeUri: getPackingList
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /getPackingList
             Method: get
-
+    Metadata:
+      SamResourceId: getPackingList
   updatePackingList:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: updatePackingList
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/updatePackingList
+      CodeUri: updatePackingList
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
             Path: /updatePackingList
             Method: post
-            ApiId: !Ref RollWithIt
-
+            ApiId:
+              Ref: RollWithIt
+    Metadata:
+      SamResourceId: updatePackingList
   updatePackingListItem:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: updatePackingListItem
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/updatePackingListItem
+      CodeUri: updatePackingListItem
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /updatePackingListItem
             Method: post
-
+    Metadata:
+      SamResourceId: updatePackingListItem
   getTheme:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: getTheme
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/getTheme
+      CodeUri: getTheme
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /getTheme
             Method: get
-
+    Metadata:
+      SamResourceId: getTheme
   createTheme:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: createTheme
       Handler: index.handler
       Runtime: nodejs22.x
-      CodeUri: ./src/createTheme
+      CodeUri: createTheme
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: roll_with_it
+      - DynamoDBCrudPolicy:
+          TableName: roll_with_it
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
-            ApiId: !Ref RollWithIt
+            ApiId:
+              Ref: RollWithIt
             Path: /createTheme
             Method: post
-
+    Metadata:
+      SamResourceId: createTheme
 Outputs:
   ApiUrl:
-    Description: "HTTP API endpoint base URL"
-    Value: !Sub "https://${RollWithIt}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: HTTP API endpoint base URL
+    Value:
+      Fn::Sub: https://${RollWithIt}.execute-api.${AWS::Region}.amazonaws.com
