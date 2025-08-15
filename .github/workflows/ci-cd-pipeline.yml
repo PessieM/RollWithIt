@@ -51,6 +51,11 @@ jobs:
       - name: Install AWS SAM CLI
         uses: aws-actions/setup-sam@v2
 
+      - name: Test S3 upload
+        run: |
+          echo "test" > test.txt
+          aws s3 cp test.txt s3://roll-with-it-deployments/test.txt
+
       - name: Build SAM application
         run: sam build
 
